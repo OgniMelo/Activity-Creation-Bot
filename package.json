@@ -1,0 +1,28 @@
+{
+  "name": "activity-creation-bot",
+  "version": "1.0.0",
+  "description": "Create activities where users can register (for games or anything else)",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "module-alias": "^2.2.2",
+    "mongoose": "^5.12.14",
+    "node": "^16.3.0",
+    "nodemon": "^2.0.7",
+    "redis": "^3.1.2"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@commands": "./commands",
+    "@features": "./features",
+    "@schemas": "./schemas",
+    "@util": "./util"
+  }
+}
