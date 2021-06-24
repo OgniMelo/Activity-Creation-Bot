@@ -61,7 +61,7 @@
 			"inf_CommandUsage": "\nL'utilisation correcte serait: `%VAR%%VAR% %VAR%`",
 			"inf_SupportedLang": "Liste des langues prises en charge :\n%VAR%.",
 			"inf_CurrentLang": "La langue actuelle est `%VAR%`",
-			"inf_LangChanged": "La langue a été changé en `%VAR%`.",
+			"inf_LangChanged": "La langue a été changée en `%VAR%`.",
 			"inf_StatusChanged": "Le statut a été changé en `%VAR%`.",
 			"inf_CurrentThumbnail": "La miniature actuelle du serveur est `%VAR%`",
 			"inf_ThumbnailChanged": "La miniature du serveur a été changée en `%VAR%`.",
