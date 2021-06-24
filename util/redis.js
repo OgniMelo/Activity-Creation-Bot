@@ -32,3 +32,13 @@ module.exports.expire = callback => {
     const pub = redis.createClient({ url: redisPath })
     pub.send_command("config", ["set", "notify-keyspace-events", "ex"], expired())
 }
+
+// Connect to Redis and set a key
+// const redisClient = await redis()
+// try {
+//     console.log("Connected to redis server.")
+//     redisClient.set("TestKey", "Just a test value", "ex", 60) // Set a key with TTL of 60 seconds
+// }
+// finally {
+//     redisClient.quit()
+// }

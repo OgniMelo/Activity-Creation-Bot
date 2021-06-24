@@ -9,3 +9,13 @@ module.exports = async () => {
     })
     return mongoose
 }
+
+// Connect to MongoDB
+// await mongo().then(mongoose => {
+//     try {
+//         console.log("Connected to Mongo.")
+//     }
+//     finally {
+//         mongoose.connection.close()
+//     }
+// })

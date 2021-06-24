@@ -6,6 +6,7 @@ const { setLanguage, getTranslation } = require("@features/language.js")
 module.exports = {
     commands: ["setlanguage", "setlang", "sl"],
     expectedArgs: "<language>",
+    description: "Set the language of the bot.",
     permissionError: "You need Administrator permission to run this command.",
     minArgs: 1,
     maxArgs: 1,

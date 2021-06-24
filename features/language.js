@@ -34,9 +34,9 @@ const getLanguage = (guild) => {
 
 const replaceVars = (language, textId, ...vars) => {
     let translatedText = lang.translations[language][textId]
-    	
-		let count = 0;
-		translatedText = translatedText.replace(/%VAR%/g, () => vars[count] !== null ? vars[count++] : "%VAR%");
+
+	let count = 0
+	translatedText = translatedText.replace(/%VAR%/g, () => vars[count] !== null ? vars[count++] : "%VAR%")
 
 	return translatedText;
 }
@@ -48,7 +48,7 @@ const getTranslation = (guild, textId, ...vars) => {
         throw new Error(`Unknown Text ID "${textId}"`)
     }
 
-    return replaceVars(currentGuildLanguage, textId, vars)
+    return replaceVars(currentGuildLanguage, textId, ...vars)
 }
 
 module.exports = (client) => { loadLanguages(client) }
