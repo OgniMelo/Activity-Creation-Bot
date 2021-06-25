@@ -16,9 +16,6 @@ const emojis = {
 	delete: "🗑️"
 }
 
-const ERR_NOANSWERRECEIVED = (guild) => { return getTranslation(guild, "err_NoAnswerReceived") }
-const ACT_ALREADYREGISTERED = (guild) => { return getTranslation(guild, "act_AlreadyRegistered") }
-
 class Activity {
 	guildId
 	channelId
@@ -102,7 +99,7 @@ const verifyDate = (message, arguments) => {
 
 module.exports = {
     commands: ["activity"],
-    expectedArgs: "<date> <time> <nbMaxParticipants> <Description>",
+    expectedArgs: "<Date> <Time> <nbMaxParticipants> <Description> (Date: dd/mm/yyyy, Time: hh:mm)",
     minArgs: 4,
     maxArgs: null,
     callback: async (message, arguments, text, client) => {
@@ -188,13 +185,6 @@ const saveActivityToMongo = async activity => {
 			})
 
 			console.log("Activity created/updated in db.")
-			// message.reply(getTranslation(guild, "inf_LangChanged", newLanguage)).then(message => message.delete( {timeout: 30000} ).catch(console.error))
-
-			// const results = await activitySchema.find({
-			// 	_guildId: guildId,
-			// 	_channelId: channelId,
-			// 	_messageId: messageId
-			// })
 		}
 		finally {
 			mongoose.connection.close()

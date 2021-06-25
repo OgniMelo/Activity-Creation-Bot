@@ -119,6 +119,8 @@ module.exports.listenCommands = (client) => {
                 expectedArgs,
                 callback
             } = command
+            
+            message.delete({ timeout: 3000 }).catch(console.error)
 
             for (const permission of requiredPermissions) {
                 if (!member.hasPermission(permission)) {
@@ -163,7 +165,6 @@ module.exports.listenCommands = (client) => {
             }
 
             callback(message, arguments, arguments.join(' '), client)
-            message.delete({timeout: 3000}).catch(console.error)
         }
     })
 }
