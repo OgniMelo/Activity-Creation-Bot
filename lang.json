@@ -101,7 +101,7 @@
 			"err_NoArguments": "Aucun argument n'a été fourni, %VAR% !",
 			"err_InvalidURL": "L'URL entrée n'est pas valide.",
 			"err_IncorrectDate": "La date entrée est incorrecte : %VAR%/%VAR%/%VAR%.",
-			"err_IncorrectTime": "La date entrée est incorrecte : %VAR%:%VAR%.",
+			"err_IncorrectTime": "L'heure entrée est incorrecte : %VAR%:%VAR%.",
 			"err_IncorrectNbParticipant": "Le nombre de participants entré est incorrect : %VAR%.",
 			"err_NoAnswerReceived": "Aucune réponse reçue.",
 
