@@ -73,17 +73,21 @@ module.exports = async client => {
             activity.reservists.forEach(reservist => {
                 reservistsID.push(reservist.slice(reservist.lastIndexOf('@') + 1, reservist.lastIndexOf('>')))
             })
+            
+            await guild.members.fetch()
 
             participantsID.forEach(id => {
-                const member = guild.members.resolve(id)
+                const member = guild.members.cache.find(member => member.id === id)
                 if (member) {
-                    member.send(`L'activité \`${activity.description}\` commence dans moins de 30 minutes.`).catch(console.error)
+                    member.user.send(`L'activité \`${activity.description}\` commence dans moins de 30 minutes.`).catch(console.error)
+                    console.log(`Reminder sent to ${member.user.tag}.`)
                 }
             })
             reservistsID.forEach(id => {
-                const member = guild.members.resolve(id)
+                const member = guild.members.cache.find(member => member.id === id)
                 if (member) {
-                    member.send(`L'activité \`${activity.description}\` commence dans moins de 30 minutes.`).catch(console.error)
+                    member.user.send(`L'activité \`${activity.description}\` commence dans moins de 30 minutes.`).catch(console.error)
+                    console.log(`Reminder sent to ${member.user.tag}.`)
                 }
             })
             console.log(`Reminders sent for ${activity.description}`)
