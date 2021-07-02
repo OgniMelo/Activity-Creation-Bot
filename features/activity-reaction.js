@@ -15,6 +15,7 @@ class Activity {
     author
 	description
 	date
+    timestamp
 	nbMaxParticipant
     "participants" = ["-"]
     "reservists" = ["-"]
@@ -193,7 +194,6 @@ const addParticipant = (message, activity, user) => {
     activity.reservists = delActivityUser(user, activity.reservists)
     activity.maybes = delActivityUser(user, activity.maybes)
     activity.unavailables = delActivityUser(user, activity.unavailables)
-    console.log(activity)
     updateEmbedList(message, activity)
 }
 
@@ -284,6 +284,7 @@ const deleteActivity = async (message, activity, user) => {
     }
 
     // User can delete the activity
+    const redisClient = await redis()
     await mongo().then(async mongoose => {
         try {
             await activitySchema.findOneAndDelete({
@@ -291,6 +292,8 @@ const deleteActivity = async (message, activity, user) => {
                 _channelId: channel.id,
                 _messageId: message.id
             })
+
+            redisClient.del(`ActivityCreationBot-activity-activityReminder-${activity.guildId}-${activity.channelId}-${activity.messageId}`)
 
             message.delete().catch(console.error).then(message => {
                 message.channel.send(getTranslation(guild, "act_ActivityDeleted")).then(message => {

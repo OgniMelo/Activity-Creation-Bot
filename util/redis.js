@@ -23,14 +23,14 @@ module.exports.expire = callback => {
     const expired = () => {
         const sub = redis.createClient({ url: redisPath })
         sub.subscribe('__keyevent@0__:expired', () => {
-            sub.on("message", (channel, message) => [
+            sub.on("message", (channel, message) => {
                 callback(message)
-            ])
+            })
         })
     }
 
     const pub = redis.createClient({ url: redisPath })
-    pub.send_command("config", ["set", "notify-keyspace-events", "ex"], expired())
+    pub.send_command("config", ["set", "notify-keyspace-events", "Ex"], expired())
 }
 
 // Connect to Redis and set a key

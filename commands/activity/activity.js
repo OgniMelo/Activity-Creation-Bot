@@ -1,7 +1,7 @@
-const fs = require('fs')
 const Discord = require("discord.js")
 
 const mongo = require("@util/mongo")
+const redis = require("@util/redis")
 const activitySchema = require("@schemas/activity-schema")
 
 const { getTranslation } = require("@features/language.js")
@@ -23,6 +23,7 @@ class Activity {
     author
 	description
 	date
+	timestamp
 	nbMaxParticipant
     "participants" = ["-"]
     "reservists" = ["-"]
@@ -126,7 +127,8 @@ module.exports = {
 		activity.author = message.author
 		activity.nbMaxParticipant = arguments.shift()
 		activity.description = arguments.join(' ')
-		activity.date = date.toLocaleString().replace(", ", " - ")
+		activity.date = date.toLocaleString("fr-FR").replace(", ", " - ")
+		activity.timestamp = date.getTime()
 
 		if (isNaN(activity.nbMaxParticipant) || activity.nbMaxParticipant < 1) {
 			channel.send(getTranslation(guild, "err_IncorrectNbParticipant", activity.nbMaxParticipant))
@@ -137,7 +139,7 @@ module.exports = {
 
 		let embed = new Discord.MessageEmbed()
 			.setColor("#FD6B0D")
-			.setTitle(date.toLocaleString().replace(", ", " - "))
+			.setTitle(activity.date)
 			.setDescription(activity.description)
 			.setAuthor(activity.author.tag, activity.author.avatarURL())
 			//.setImage(infos.image)
@@ -147,7 +149,7 @@ module.exports = {
 			.addField(getTranslation(guild, "act_MaybeField", emojis["maybe"], activity.maybes.filter(filter).length), activity.maybes, false)
 			.addField(getTranslation(guild, "act_UnavailableField", emojis["unavailable"], activity.unavailables.filter(filter).length), activity.unavailables, false)
 			.setFooter(activity.date)
-		console.log(`Date : ${date.toLocaleString().replace(", ", " - ")}`)
+		console.log(`Date : ${activity.date}`)
 
 		let msg = await channel.send(embed)
 		for (const emoji in emojis) {
@@ -158,6 +160,14 @@ module.exports = {
 		activity.channelId = channel.id
 		activity.messageId = msg.id
 
+		const redisClient = await redis()
+		try {
+			// Set Redis Key to expire
+			redisClient.set(`ActivityCreationBot-activity-activityReminder-${activity.guildId}-${activity.channelId}-${activity.messageId}`, activity.description, "ex", Math.floor((activity.timestamp - Date.now()) / 1000) - 3600 / 2)
+		}
+		finally {
+			redisClient.quit()
+		}
 		saveActivityToMongo(activity)
     },
     requiredPermissions: [],
