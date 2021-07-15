@@ -1,4 +1,5 @@
 const Discord = require("discord.js")
+const redis = require("@util/redis")
 const mongo = require("@util/mongo")
 const activitySchema = require("@schemas/activity-schema")
 const { saveActivityToMongo } = require("@commands/activity/activity")
@@ -128,8 +129,6 @@ module.exports = client => {
 			deleteActivity(message, activity, user)
 		}
 
-        saveActivityToMongo(activity)
-
         reaction.users.remove(user)
     })
 }
@@ -171,6 +170,9 @@ const addParticipant = (message, activity, user) => {
 
     if (activity.participants[0] === "-") {
         activity.participants = [userString]
+        activity.reservists = delActivityUser(user, activity.reservists)
+    	activity.maybes = delActivityUser(user, activity.maybes)
+    	activity.unavailables = delActivityUser(user, activity.unavailables)
         updateEmbedList(message, activity)
         return
     }
@@ -267,6 +269,7 @@ const changeUserAvailability = async (message, activity, user, type) => {
                 message.delete({ timeout: 5000 }).catch(console.error)
             })
         }
+
         return
     })
     .catch(collected => {
@@ -366,4 +369,5 @@ const updateEmbedList = (message, activity) => {
     newEmbed.fields[FIELD_INDEX["unavailable"]] = newUnavailableField
 
     message.edit(message, newEmbed)
+    saveActivityToMongo(activity)
 }

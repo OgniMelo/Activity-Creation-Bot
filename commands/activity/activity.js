@@ -1,5 +1,4 @@
 const Discord = require("discord.js")
-
 const mongo = require("@util/mongo")
 const redis = require("@util/redis")
 const activitySchema = require("@schemas/activity-schema")
@@ -168,7 +167,7 @@ module.exports = {
 		finally {
 			redisClient.quit()
 		}
-		saveActivityToMongo(activity)
+		await saveActivityToMongo(activity)
     },
     requiredPermissions: [],
     requiredRoles: []
